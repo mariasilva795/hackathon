@@ -111,26 +111,28 @@ func (repo *FirestoreRepository) GetEmotionalDailyLogById(ctx context.Context, i
 	return nil, nil
 }
 
-// func (repo *FirestoreRepository) InsertPost(ctx context.Context, post *models.Post) error {
-// 	return nil
+func (repo *FirestoreRepository) UpdateEmotionalDailyLog(ctx context.Context, post *models.EmotionalDailyLog, userId string) error {
 
-// }
+	query := repo.client.Collection("emotional_banck").
+		Doc("44SR9J4VS8aowdbcVmUO6").
+		Collection("emotionalDailyLog").
+		Where("UserId", "==", userId).
+		Where("Id", "==", post.Id)
 
-// func (repo *FirestoreRepository) UpdatePost(ctx context.Context, post *models.Post, userId string) error {
-// 	return nil
+	docs, err := query.Documents(ctx).GetAll()
+	if err != nil {
+		return err
+	}
 
-// }
+	if len(docs) == 0 {
+		return nil
+	}
 
-// func (repo *FirestoreRepository) DeletePost(ctx context.Context, id string, userId string) error {
-// 	return nil
+	doc := docs[0]
 
-// }
-
-// func (repo *FirestoreRepository) GetUserByEmail(ctx context.Context, email string) error {
-// 	return nil
-
-// }
-
-// func (repo *FirestoreRepository) ListPosts(ctx context.Context, page uint64) error {
-// 	return nil
-// }
+	_, err = doc.Ref.Set(ctx, post)
+	if err != nil {
+		return err
+	}
+	return nil
+}
