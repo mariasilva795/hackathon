@@ -46,6 +46,7 @@ func BindRoutes(s server.Server, r *mux.Router) {
 	r.HandleFunc("/login", handlers.LoginHandler(s)).Methods(http.MethodPost)
 	api.HandleFunc("/me", handlers.MeHandler(s)).Methods(http.MethodGet)
 
-	api.HandleFunc("/log", handlers.InsertEmotionalDailyLog(s)).Methods(http.MethodPost)
+	api.HandleFunc("/log", handlers.InsertEmotionalDailyLogHandler(s)).Methods(http.MethodPost)
+	api.HandleFunc("/log/{id}", handlers.GetEmotionalDailyLogByIdHandler(s)).Methods(http.MethodGet)
 
 }

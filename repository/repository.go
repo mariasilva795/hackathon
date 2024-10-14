@@ -12,6 +12,7 @@ type Repository interface {
 	GetUserById(ctx context.Context, id string) (*models.User, error)
 	GetUserByEmail(ctx context.Context, email string) (*models.User, error)
 	InsertEmotionalDailyLog(ctx context.Context, emotion *models.EmotionalDailyLog) error
+	GetEmotionalDailyLogById(ctx context.Context, id string) (*models.EmotionalDailyLog, error)
 }
 
 var implementation Repository
@@ -40,4 +41,8 @@ func Close() error {
 
 func InsertEmotionalDailyLog(ctx context.Context, emotionalDailyLog *models.EmotionalDailyLog) error {
 	return implementation.InsertEmotionalDailyLog(ctx, emotionalDailyLog)
+}
+
+func GetEmotionalDailyLogById(ctx context.Context, id string) (*models.EmotionalDailyLog, error) {
+	return implementation.GetEmotionalDailyLogById(ctx, id)
 }

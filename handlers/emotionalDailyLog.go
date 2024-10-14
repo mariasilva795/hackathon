@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/mariasilva795/go-api-rest/helpers/auth"
 	"github.com/mariasilva795/go-api-rest/models"
 	"github.com/mariasilva795/go-api-rest/repository"
@@ -35,7 +36,7 @@ type PostDeletedResponse struct {
 	Message string `json:"message"`
 }
 
-func InsertEmotionalDailyLog(s server.Server) http.HandlerFunc {
+func InsertEmotionalDailyLogHandler(s server.Server) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		claimsUserId, err := auth.ValidateToken(s, r)
@@ -88,5 +89,19 @@ func InsertEmotionalDailyLog(s server.Server) http.HandlerFunc {
 			Tags:           emotionLog.Tags,
 			Photos:         emotionLog.Photos,
 		})
+	}
+}
+
+func GetEmotionalDailyLogByIdHandler(s server.Server) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		params := mux.Vars(r)
+
+		post, err := repository.GetEmotionalDailyLogById(r.Context(), params["id"])
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(post)
 	}
 }
