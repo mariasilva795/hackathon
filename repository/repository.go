@@ -15,7 +15,7 @@ type Repository interface {
 	GetEmotionalDailyLogById(ctx context.Context, id string) (*models.EmotionalDailyLog, error)
 	UpdateEmotionalDailyLog(ctx context.Context, emotion *models.EmotionalDailyLog, userId string) error
 	DeleteEmotionalDailyLog(ctx context.Context, id string, userId string) error
-	//ListEmotionalDailyLogs(ctx context.Context, page uint64) ([]*models.EmotionalDailyLog, error)
+	ListEmotionalDailyLogs(ctx context.Context) ([]*models.EmotionalDailyLog, error)
 }
 
 var implementation Repository
@@ -58,6 +58,6 @@ func DeleteEmotionalDailyLog(ctx context.Context, id string, userId string) erro
 	return implementation.DeleteEmotionalDailyLog(ctx, id, userId)
 }
 
-// func ListEmotionalDailyLogs(ctx context.Context, page uint64) ([]*models.Post, error) {
-// 	return implementation.ListEmotionalDailyLogs(ctx, page)
-// }
+func ListEmotionalDailyLogs(ctx context.Context) ([]*models.EmotionalDailyLog, error) {
+	return implementation.ListEmotionalDailyLogs(ctx)
+}

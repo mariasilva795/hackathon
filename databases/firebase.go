@@ -159,3 +159,28 @@ func (repo *FirestoreRepository) DeleteEmotionalDailyLog(ctx context.Context, id
 
 	return err
 }
+
+func (repo *FirestoreRepository) ListEmotionalDailyLogs(ctx context.Context) ([]*models.EmotionalDailyLog, error) {
+	query := repo.client.Collection("emotional_banck").
+		Doc("44SR9J4VS8aowdbcVmUO6").
+		Collection("emotionalDailyLog")
+
+	docs, err := query.Documents(ctx).GetAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var logs []*models.EmotionalDailyLog
+
+	for _, doc := range docs {
+		var log models.EmotionalDailyLog
+
+		if err := doc.DataTo(&log); err != nil {
+			return nil, err
+		}
+
+		logs = append(logs, &log)
+	}
+
+	return logs, nil
+}
