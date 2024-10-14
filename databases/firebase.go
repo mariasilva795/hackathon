@@ -30,7 +30,7 @@ func NewFirestoreRepository(urlDocument string) (*FirestoreRepository, error) {
 }
 
 func (repo *FirestoreRepository) InsertUser(ctx context.Context, user *models.User) error {
-	docRef := repo.client.Collection("emotional_banck").Doc("44SR9J4VS8aowdbcVmUO6").Collection("users").Doc(user.Email)
+	docRef := repo.client.Collection("emotional_bank").Doc("44SR9J4VS8aowdbcVmUO6").Collection("users").Doc(user.Email)
 	_, err := docRef.Set(ctx, user)
 	return err
 }
@@ -40,7 +40,7 @@ func (repo *FirestoreRepository) Close() error {
 }
 
 func (repo *FirestoreRepository) GetUserById(ctx context.Context, id string) (*models.User, error) {
-	query := repo.client.Collection("emotional_banck").Doc("44SR9J4VS8aowdbcVmUO6").Collection("users")
+	query := repo.client.Collection("emotional_bank").Doc("44SR9J4VS8aowdbcVmUO6").Collection("users")
 
 	docs, err := query.Documents(ctx).GetAll()
 
@@ -64,7 +64,7 @@ func (repo *FirestoreRepository) GetUserById(ctx context.Context, id string) (*m
 }
 
 func (repo *FirestoreRepository) GetUserByEmail(ctx context.Context, email string) (*models.User, error) {
-	docRef := repo.client.Collection("emotional_banck").Doc("44SR9J4VS8aowdbcVmUO6").Collection("users").Doc(email)
+	docRef := repo.client.Collection("emotional_bank").Doc("44SR9J4VS8aowdbcVmUO6").Collection("users").Doc(email)
 	doc, err := docRef.Get(ctx)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,13 @@ func (repo *FirestoreRepository) GetUserByEmail(ctx context.Context, email strin
 	return &user, nil
 }
 
-//---
+//EmotionalDailyLog
+
+func (repo *FirestoreRepository) InsertEmotionalDailyLog(ctx context.Context, emotion *models.EmotionalDailyLog) error {
+	docRef := repo.client.Collection("emotional_bank").Doc("44SR9J4VS8aowdbcVmUO6").Collection("emotionalDailyLog").NewDoc()
+	_, err := docRef.Set(ctx, emotion)
+	return err
+}
 
 // func (repo *FirestoreRepository) InsertPost(ctx context.Context, post *models.Post) error {
 // 	return nil

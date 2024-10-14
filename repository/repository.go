@@ -11,6 +11,7 @@ type Repository interface {
 	Close() error
 	GetUserById(ctx context.Context, id string) (*models.User, error)
 	GetUserByEmail(ctx context.Context, email string) (*models.User, error)
+	InsertEmotionalDailyLog(ctx context.Context, emotion *models.EmotionalDailyLog) error
 }
 
 var implementation Repository
@@ -33,4 +34,10 @@ func GetUserByEmail(ctx context.Context, email string) (*models.User, error) {
 
 func Close() error {
 	return implementation.Close()
+}
+
+// Bank Emotional
+
+func InsertEmotionalDailyLog(ctx context.Context, emotionalDailyLog *models.EmotionalDailyLog) error {
+	return implementation.InsertEmotionalDailyLog(ctx, emotionalDailyLog)
 }
